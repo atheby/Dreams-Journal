@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h3>{{ dream.title }}</h3>
+    <span class="dream-usr">{{ dream.user.username }} on {{ dream.date.date | slice(0, 10) }}</span>
+    <hr />
+    {{ dream.description }}
+    <hr />
+    {% if dream.getComments() | length > 0 %}
+        <h4>Comments</h4>
+    {% endif %}
+    {% for comment in dream.getComments() %}
+        <div class="comment-block">
+            <h5 class="comment-usr">{{ comment.user.username }} on {{ comment.addedAt.date }}</h5>
+            <p class="comment-text">{{ comment.text }}</p>
+        </div>
+    {% endfor %}
+    <h4>Add a comment</h4>
+    <form class="form-horizontal comment-form" role="form" action="{{ path("comment_add", {"dream" : dream.id}) }}" method="post">
+        <div class="form-group">
+            <div class="col-xs-12">
+                <textarea class="form-control input-field" type="textfield" rows="3" name="text"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <button type="submit" class="btn btn-default">Send</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

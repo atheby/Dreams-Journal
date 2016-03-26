@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div>
+    <ul class="nav nav-pills">
+      <li role="presentation"><a href="{{ path("homepage", { "sort": "latests" }) }}" class="btn btn-large disabled">Latests</a></li>
+      <li role="presentation"><a href="{{ path("homepage", { "sort": "rating" }) }}" class="btn btn-large disabled">Highest rating</a></li>
+    </ul>
+    <hr />
+  </div>
+  
+{% for dream in dreams | slice((page - 1) * 10, 10) %}
+  <div class="panel panel-default center-block index-dream">
+    <div class="panel-heading">
+      <h3 class="panel-title"><a href="{{ path("dream_show", { "dream": dream.id }) }}">{{ dream.title }}</a><span class="pull-right">{{ dream.date.date | slice(0, 10) }}</span></h3>
+    </div>
+    <div class="panel-body">
+      <p>{{ dream.description | length > 800 ? dream.description | slice(0,800) ~ '...' : dream.description }}</p>
+      <span class="pull-right index-dream-usr"> - {{ dream.user.username }}</span>
+    </div>
+  </div>
+{% endfor %}
+
+{% if dreams | length > 10 %}
+  <div class="center-block pagination-block">
+    <ul class="pagination">
+      {% for i in 1..(dreams | length / 10) | round(0, "ceil") %}
+        <li><a href="{{ path("homepage", { "page": i }) }}" class="btn btn-large">{{ i }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+{% endblock %}

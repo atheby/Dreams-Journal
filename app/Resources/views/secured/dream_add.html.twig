@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('datetimepicker/jquery.datetimepicker.css') }}"/ >
+{% endblock %}
+
+{% block body %}
+    {% form_theme form 'form/form_dream_add.html.twig' %}
+    {{ form(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('datetimepicker/jquery.js') }}"></script>
+    <script src="{{ asset('datetimepicker/build/jquery.datetimepicker.full.min.js') }}"></script>
+    <script>
+        $(function() {
+            $("#dre_dream_date").datetimepicker({
+                timepicker:false,
+                maxDate: '0',
+                format:'Y-m-d'
+            });
+        });
+    </script>
+{% endblock %}
